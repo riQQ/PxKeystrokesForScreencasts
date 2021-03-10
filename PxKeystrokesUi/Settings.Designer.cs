@@ -620,7 +620,7 @@
             this.rb_bi_disable.Size = new System.Drawing.Size(127, 17);
             this.rb_bi_disable.TabIndex = 2;
             this.rb_bi_disable.TabStop = true;
-            this.rb_bi_disable.Text = "No not indicate clicks";
+            this.rb_bi_disable.Text = "Do not indicate clicks";
             this.rb_bi_disable.UseVisualStyleBackColor = true;
             this.rb_bi_disable.CheckedChanged += new System.EventHandler(this.rb_bi_disable_CheckedChanged);
             // 
