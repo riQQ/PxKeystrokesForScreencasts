@@ -14,6 +14,10 @@ namespace PxKeystrokesUi
     {
         IMouseRawEventProvider m;
         SettingsStore s;
+        float factorX = 1;
+        float factorY = 1;
+        float defaultDpi = 96;
+        Point newLocation = new Point();
 
         public CursorIndicator(IMouseRawEventProvider m, SettingsStore s)
         {
@@ -36,10 +40,18 @@ namespace PxKeystrokesUi
 
         void CursorIndicator_Paint(object sender, PaintEventArgs e)
         {
-            this.Location = new Point(0, 0);
             Graphics g = this.CreateGraphics();
             Pen p = new Pen(s.CursorIndicatorColor, 7);
             g.FillEllipse(p.Brush, 0, 0, s.CursorIndicatorSize.Width, s.CursorIndicatorSize.Height);
+
+            factorX = g.DpiX / defaultDpi;
+            factorY = g.DpiY / defaultDpi;
+
+            Console.WriteLine($"DPI X: {g.DpiX}");
+            Console.WriteLine($"DPI Y: {g.DpiY}");
+
+            Console.WriteLine($"factor X: {factorX}");
+            Console.WriteLine($"factor Y: {factorY}");
             //UpdatePosition();
         }
 
@@ -83,8 +95,9 @@ namespace PxKeystrokesUi
 
         void UpdatePosition()
         {
-            this.Location = Point.Subtract(cursorPosition, new Size(this.Size.Width / 2, this.Size.Height / 2));
-            //this.Location = cursorPosition;
+            newLocation.X = (int)((cursorPosition.X - this.Size.Width / 2) * factorX);
+            newLocation.Y = (int)((cursorPosition.Y - this.Size.Height / 2) * factorY);
+            this.Location = newLocation;
         }
 
         private void settingChanged(SettingsChangedEventArgs e)
